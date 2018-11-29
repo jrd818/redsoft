@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>文档</title>
+	<script language="JavaScript" type="text/javascript" src="../js/fts.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- <script language="JavaScript" type="text/javascript" src="../js/jquery-3.3.1.js"></script> -->
+    <link rel="stylesheet" href="../js_chajian/wenben_bianji/common.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="../js_chajian/wenben_bianji/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../js_chajian/wenben_bianji/xheditor-1.1.14-zh-cn.min.js"></script>
+    </head>
+</head>
+<body style="margin: 0px;">
+	<div id="页中" style="height: 700px;width: 100%;text-align: center;">
+		<div style="width: 1200px;margin: 0 auto;text-align: left;">
+			<div id="搜索" style="height: 50px;padding:30px;font-size: 26px;text-align: center; ">
+				<div>
+					<input type="" name="" style="width: 500px;height: 30px;" id="sousuokuang">
+					<input type="button" name="" value="搜索" style="height: 30px;width: 60px;">
+					<input type="button" onclick="new_product()" name="" onclick="new_product()" value="新增" style="height: 30px;width: 60px;">
+				</div>
+			</div>
+			<div id="知识" style="float: left;height: 600px;width: 200px;border: 1px solid #aaa;padding: 15px;overflow: auto;">	
+				<div>
+					<div style="font-size: 110%;color: blue;text-decoration: underline;cursor: pointer;">
+						第一个简单的知识测试系统
+					</div>
+					<div >
+						受到罚款交了手机费地
+					</div>
+					<br>
+				</div>
+			</div>
+			<div id="知识明细" style="float: left;height: 600px;width: 900px;border: 1px solid #aaa;overflow: auto;margin-left: 5px;">
+				<div id="标题" style="width: 100%;height: 40px;background-color: #ddd;">
+					<div style="padding:10px;float: left;">知识明细</div>
+					<div  style="float: right;padding: 10px;cursor: pointer;color: blue;">编辑</div>
+				</div>
+				<div id="列表" style="padding: 8px;">
+					<form id="frmDemo" method="post" action="show.php">
+						<textarea id="elm1" name="elm1" class="xheditor" rows="12" cols="80" style="width: 98%">333</textarea>
+					</form>
+					
+					<input type="button" name="" value="显示" onclick="gaiBianJingDu()">
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			// getGongDan();
+			var gongdan = Object;
+			var xuanzhongbiaodan = '';
+			function getGongDan() {//获取工单
+			    var aa = document.getElementById('xzccp');
+			    var data = new FormData(aa);
+			    data.append('r','查询知识');
+			    var xmlhttp = new XMLHttpRequest();
+			    xmlhttp.onreadystatechange=function() {
+			        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			        {
+			            var dd = j_a(xmlhttp.responseText);
+			            if (dd[0] == 'success') {
+			            	gongdan = '';
+			            	gongdan = dd[1];
+			            	if (dd[1]) {
+			            		xianshi_gongdan(dd[1]);
+			            	}
+			                
+			            } else {
+			                alert(xmlhttp.responseText);
+			            }
+			        }
+			    }
+			    xmlhttp.open("POST",'zhishi_do.php',true);
+			    xmlhttp.send(data);
+			}
+			function xianshi_gongdan(nr) {//显示工单
+				var aa =  document.getElementById('知识');
+				aa.innerHTML = '';
+				for (var i = 0; i < nr.length; i++) {
+					aa.innerHTML += '<div><div style="font-size: 110%;color: blue;text-decoration: underline;cursor: pointer;">'+nr[i][0].标题+'</div><div >'+nr[i][0].内容+'</div><br></div>';
+				}
+			}
+			function xianshi_mingxi(xx) {//显示工单明细
+				var syll =  document.getElementById('列表').children;
+				for (var i = 0; i < syll.length; i++) {
+					syll[i].style.backgroundColor = '';
+				}
+				xx.style.backgroundColor = '#6fe';
+				xx = xx.id;
+				xuanzhongbiaodan = xx;
+				var aa = Object;
+				for (var i = 0; i < gongdan.length; i++) {
+					if (gongdan[i][0].工单编码 == xx ) {
+						aa = gongdan[i];
+					}
+				}
+				var nicheng = aa[0].QQ昵称;
+				if (aa[0].群备注) {
+					nicheng = aa[0].群备注;
+				}
+				document.getElementById('明细标题').innerHTML = '<div  style="margin-top: 10px;"><output>QQ号：</output><output style="margin-right: 20px;">'+aa[0].QQ号码+'</output><output>QQ昵称</output><output >'+nicheng+'</output></div><div  style="margin-top: 10px;"><output>标题：</output><output>'+aa[0].问题标题+'</output><br><output>描述：</output><output>'+aa[0].问题描述+'</output></div>';
+				var tjiaohuifu = document.getElementById('提交回复');
+				tjiaohuifu.innerHTML = '';
+				for (var i = 0; i < aa[1].length; i++) {
+					var tupp = '';
+					if (aa[1][i].图片1) {
+						tupp = '<img src="'+aa[1][i].图片1+'" style="width: 30px;height: 30px;">';
+					} 
+					if (aa[1][i].图片2) {
+						tupp += '<img src="'+aa[1][i].图片2+'" style="width: 30px;height: 30px;">';
+					} 
+					if (aa[1][i].图片3) {
+						tupp += '<img src="'+aa[1][i].图片3+'" style="width: 30px;height: 30px;">';
+					} 
+					if (aa[1][i].图片4) {
+						tupp += '<img src="'+aa[1][i].图片4+'" style="width: 30px;height: 30px;">';
+					} 
+					if (aa[1][i].图片5) {
+						tupp += '<img src="'+aa[1][i].图片5+'" style="width: 30px;height: 30px;">';
+					} 
+					tjiaohuifu.innerHTML += '<div style=""><div style="padding: 5px;"><output>'+aa[1][i].处理人+'</output><output>'+aa[1][i].处理内容+'</output></div><div style="padding: 5px;">'+tupp+'</div><div style="text-align: right;"><output style="padding: 5px;opacity: 0.8;">'+aa[1][i].处理时间+'</output><hr style="height:1px;border:none;border-top:1px dashed #ccc;" /><br></div></div>';
+
+				}
+			}
+			function gaiBianJingDu() {//改变工单进度
+				var aa = document.getElementById('frmDemo');
+				var data = new FormData(aa);
+				data.append('w','改变工单进度');
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange=function() {
+				    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				    {
+				        var dd = j_a(xmlhttp.responseText);
+				        if (dd[0] == 'success') {
+				        	alert('修改进度成功！');
+				        	// getGongDan();
+				        } else {
+				            alert(xmlhttp.responseText);
+				        }
+				    }
+				}
+				xmlhttp.open("POST",'wendang_do.php',true);
+				xmlhttp.send(data);
+			}
+			function xianshizhi() {
+				var aa = document.getElementById('elm1').innerHTML;
+				alert(aa);
+			}
+		</script>
+	</div>
+	<!-- 编辑工单 -->
+	<div id="zengjiachanpin" style="display: none;">
+	    <div style="position: fixed;left: 0px;top: 0px;right: 0px;bottom: 0px; background-color: #e0e0e0;opacity: 0.6;"  id="diyi_zhezhao"></div>
+	    <div style="display:inline; position:fixed;left: 160px;top: 60px;width: 790px;height: 650px;background-color: #f0f0f0; box-shadow: 0px 0px 10px  #0CC;font-size: 90%; ">
+	        <div style="width: 100%;height: 30px;background-color: #50c0c0; font-size: 16px;">
+	            <div id="xzspbt" style="padding: 5px;float: left;">编辑知识</div>
+	            <div style="float: right; padding: 5px; "><input  onclick="gbxzcd()" type="button" value="×"></div>
+	        </div>
+	        <form id="xzccp"  action="zhishi_do.php"  method="post" onkeydown="if(event.keyCode==13){return false;}" id="xinjianSKU" >
+	            <div style="margin: 10px; ">
+	                <output style="margin-left: 10px;">标题：</output>
+	                <input id="biaoti"  name="标题"  style="width: 450px;">            
+	            </div>
+	            <div style="margin: 10px; ">
+	                <output style="margin-left: 10px;">软件：</output>
+	                <input  name="软件"  style="width: 150px;">
+	            </div>
+	            <div  style="padding: 10px 20px;">
+	                <output onclick="gao300()" style="cursor: pointer;">内容：</output><hr>
+	                <!-- 这里生成编辑器 -->
+	                <script id="editor" type="text/plain" style="width: 750px;height: 300px;"></script>
+	                
+	            </div>
+	            <div style="position: absolute;bottom: 10px;left: 37%;">
+	                <input type="hidden" id="xzzcop" value="">
+	                <div  style="float: left;"><input type="button" name="" onclick="saveNewProduct();" value="保存" "></div>
+	                <div  style="float: left; margin-left: 60px;"><input type="button" name="" value="取消"  onclick=" gbxzcd()" ></div>
+	            </div>
+	        </form>
+	    </div>
+	    <script type="text/javascript">
+	    	var ue = UE.getEditor('editor');
+	    	setTimeout(
+		    	function () {
+		    		UE.getEditor('editor').setHeight(300);
+	    	},1000);
+	    	function gao300() {
+	    		UE.getEditor('editor').setHeight(300);
+	    	}
+	        function gbxzcd() {// 关闭新增知识
+	            document.getElementById('xzccp').reset();
+	            document.getElementById('zengjiachanpin').style.display = 'none';
+	        }
+	        function new_product() {//开始新增知识
+	            document.getElementById('xzccp').reset();
+	            document.getElementById('biaoti').value = document.getElementById('sousuokuang').value;
+	            UE.getEditor('editor').setContent('');
+	            document.getElementById('zengjiachanpin').style.display = 'block';
+	        }
+	        function saveNewProduct() {//提交表单
+	        	var nrr = UE.getEditor('editor').getContent();
+	            var aa = document.getElementById('xzccp');
+	            var data = new FormData(aa);
+	            data.append('w','新增知识');
+	            data.append('内容',nrr);
+	            var xmlhttp = new XMLHttpRequest();
+	            xmlhttp.onreadystatechange=function() {
+	                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+	                {
+	                    var dd = j_a(xmlhttp.responseText);
+	                    if (dd[0] == 'success') {
+	                        gbxzcd();
+	                        getGongDan();
+	                    } else {
+	                        alert(xmlhttp.responseText);
+	                    }
+	                }
+	            }
+	            xmlhttp.open("POST",'zhishi_do.php',true);
+	            xmlhttp.send(data);
+	        }
+	    </script>
+	</div> 
+</body>
+</html>

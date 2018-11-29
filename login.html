@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>金瑞得知识系统登陆</title>
+    <script language="JavaScript" type="text/javascript" src="js/fts.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/jquery-3.3.1.js"></script>
+</head>
+<body style="text-align: center;margin: 0px;">
+    <div id="daohang" style="height: 60px;width: 100%;background-color: #333;text-align: center;position: fixed;top: 0px;">
+        <div style="width: 1200px;margin: 0 auto;">
+            <img src="images/jrdlogo.png" style="height: 60px;float: left;">
+        </div>
+    </div>
+    <div style="width: 1200px;margin:0 auto;">
+        <div style="position: relative;left: 45%;top: 200px;padding: 10px;width: 210px;border: 1px solid #aaa; background-color: #eee;">
+            <div style="height: 30PX;margin-top: 10PX;">
+                <output>欢迎登陆！</output>
+            </div>
+            <div style="padding: 5px;">
+                <output>账号：</output>
+                <select name="账号" style="width: 140px;" id="zhanghao" value="1">
+                    <option></option>
+                    <option value="1">1 | 徐老师</option>
+                    <option value="2">2 | 王总</option>
+                    <option value="3">3 | 徐经理</option>
+                    <option value="4">4 | 魏工</option>
+                    <option value="5">5 | 程经理</option>
+                    <option value="6" selected="true" >6 | 李工</option>
+                </select>
+            </div>
+            <div style="margin-top: 10px;">
+                <output>密码：</output>
+                <input type="password" name="密码" style="width: 140px;" id="mima" value="">
+            </div>
+            <div style="margin-top: 20px;">
+                <output style="cursor: pointer;color: blue;" onclick="tijiao()">登陆</output>
+            </div>
+            <script type="text/javascript">
+                function tijiao() {
+                    var zh = document.getElementById('zhanghao').value;
+                    var ma = document.getElementById("mima").value;
+                    $.post("login_do.php",{w:"denglu",zh:zh,ma:ma},function(result){
+                        var jg = j_a(result);
+                        if (jg[0] == 'success') {
+                            location.href = '/';
+                        } else if (jg[0] == 'false') {
+                            alert(jg[1]);
+                        } else {
+                            alert(result);
+                        }
+                    });  
+                }
+            </script>
+        </div>
+    </div>
+    <div id="diyige" style="height: 130px;width: 100%;background-color: #333;text-align: center;position: fixed;bottom: 0px;">
+        <div style="width: 1200px;margin: 0 auto;color: #eee;padding: 25px;">
+            <output>联系我们:</output>
+            <output>电话:0559-2521180 </output>
+            <output>邮箱:3365253687@qq.com</output>
+        </div>
+        <div>
+            <p style="color: #888">版权所有 © 2018黄山金瑞得软件有限公司 Copyright © 2018 Huangshan REDSOFT Software
+ Technology CO.,LTD. All Rights Reserved</p>
+        </div>
+    </div>
+</body>
+</html>

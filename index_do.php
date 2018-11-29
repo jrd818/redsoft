@@ -9,7 +9,7 @@ if ( $_POST['w'] == '退出登录') {//3
         cwsj('301','退出登录失败','重要');
     } else {
         $jieguo[0] = 'success';
-        $jieguo[1] = '提交成功！';
+        $jieguo[1] = '提交成功！'; 
     }
     echo json_encode($jieguo,JSON_UNESCAPED_UNICODE);
 } 

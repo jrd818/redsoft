@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>金瑞得知识系统</title>
+	<title>金瑞得售后服务系统</title>
 	<script language="JavaScript" type="text/javascript" src="js/fts.js"></script>
     <script language="JavaScript" type="text/javascript" src="js/jquery-3.3.1.js"></script>
 </head>
@@ -28,6 +28,9 @@
         	</div>
         	<div  style="float: left; padding: 12px;margin-left: 25px;" >
         		<div id="cd0600" onclick="addxxk (this.id,'/jianshezhong.html')" onmouseover="this.style.cursor='pointer'" style="">报表</div>
+        	</div>
+        	<div  style="float: left; padding: 12px;margin-left: 25px;" >
+        		<div id="cd0700" onclick="addxxk (this.id,'/jianshezhong.html')" onmouseover="this.style.cursor='pointer'" style="">设置</div>
         	</div>
         	<div  style="float: right; padding: 12px;margin-left: 15px;" >
         		<div  style="font-size: 90%;color: #eee;cursor: pointer;margin-top: 3px;" onclick="tuichudenglu()" id="zhuce"></div>

@@ -1,13 +1,8 @@
 <?php 
     $mysql_sever_name='192.168.0.158';//内网地址
     $mysql_username = 'redsoft';
-<<<<<<< HEAD
     $mysql_password = 'redsoft5200818';
     $mysql_database = 'redsoft';
-=======
-    $mysql_password = 'redsoft';
-    $mysql_database = 'redsoft5200818';
->>>>>>> WIN10
     //设置浏览器字符集
     header("content-type:text/html;charset=utf-8");
     //建立链接

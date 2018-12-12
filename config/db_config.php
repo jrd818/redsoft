@@ -1,5 +1,5 @@
 <?php 
-    $mysql_sever_name='192.168.0.158';//内网地址
+    $mysql_sever_name='1redsoft868.gnway.cc';
     $mysql_username = 'redsoft';
     $mysql_password = 'redsoft5200818';
     $mysql_database = 'redsoft';

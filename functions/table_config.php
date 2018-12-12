@@ -1,6 +1,6 @@
 <?php
-define("fw_url", "http://jrd.sijiuen.com");
-// define("fw_url", "http://localhost");
+// define("fw_url", "http://redsoft868.gnway.cc:88");
+define("fw_url", "http://localhost:88");
 //财务
 $tb = array();
 $tb['部门列表'] = fw_url.'/api/xingzheng/bmlb_api.php';

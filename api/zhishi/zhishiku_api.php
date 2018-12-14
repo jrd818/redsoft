@@ -61,7 +61,7 @@ if (q('查询')) {
     foreach ($sup as $key => $value) {
         if ($value['作废'] != '作废') {
             $fanhui[1][$kk][0] = $value;
-            $fanhui[1][$kk][1] = $gdcl_mx->ser("知识库ID = '".$value['知识库ID']."';");
+            $fanhui[1][$kk][1] = $gdcl_mx->ser("知识库ID = '".$value['知识ID']."';");
             $kk++;
         }
     }

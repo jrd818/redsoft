@@ -44,46 +44,6 @@ window.onload=function (){//拖动窗口
     )
 }
 
-function get_id(zt,bz,input_id) {//获取ID
-    var id = '';
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange=function() {
-        if (xmlhttp.readyState==4 && xmlhttp.status==200)
-        {
-            var fhbm = j_a(xmlhttp.responseText);
-            if (fhbm[0] == "success") {
-                id = fhbm[1];
-                // return fhbm[1];
-            } else {
-                alert('自动获取编码失败！');
-                alert(xmlhttp.responseText);
-            }
-        }
-    }
-    xmlhttp.open("GET","../../functions/getid.php?字头="+zt+"&q=add&备注="+bz,false);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");//想表单一样的POST
-    xmlhttp.send();
-    return id;
-}
-
-function del_id(id) {//删除id
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange=function() {
-        if (xmlhttp.readyState==4 && xmlhttp.status==200)
-        {
-            var fhbm = j_a(xmlhttp.responseText);alert(xmlhttp.responseText);
-            if (fhbm[0] != "success") {
-                alert('删除编码失败！');
-                alert(xmlhttp.responseText);
-            }
-        }
-    }
-    xmlhttp.open("GET","../../functions/getid.php?ID="+id+"&q=del",false);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");//想表单一样的POST
-    xmlhttp.send();
-    return id;
-}
-
 function fz(xx) {//复制对象
     if (xx) {
         return JSON.parse(JSON.stringify(xx));
@@ -93,4 +53,9 @@ function fz(xx) {//复制对象
 }
 function xs(xx) {//显示对象
     alert(JSON.stringify(xx));
+}
+
+function zdd(xx) {//div 滚动条显示最低端
+    var nrr = document.getElementById(xx);
+    nrr.scrollTop = nrr.scrollHeight;
 }

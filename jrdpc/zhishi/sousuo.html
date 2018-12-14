@@ -15,7 +15,7 @@
 			<div id="搜索" style="height: 50px;padding:30px;font-size: 26px;text-align: center;">
 				<div>
 					<input type="" name="" style="width: 500px;height: 30px;" id="sousuokuang">
-					<input type="button" name="" value="搜索" style="height: 30px;width: 60px;">
+					<input type="button" onclick="sousuozs()" value="搜索" style="height: 30px;width: 60px;">
 					<input type="button" onclick="new_product()" name=""  value="新增" style="height: 30px;width: 60px;">
 				</div>
 			</div>
@@ -32,11 +32,11 @@
 					<div style="padding:10px;float: left;">内容：<output id="zhismxi"></output></div>
 				</div>
 				<div id="列表" >
-					<div id="xszsmx" style="width: 700px;height: 100px;padding: 10px;overflow: hidden;"></div>
+					<div id="xszsmx" style="width: 700px;height: 100px;padding: 10px;overflow: auto;"></div>
 				</div>
 				<hr>
 				<div id="明细" >
-					<div id="zhishimixi" style="width: 700px;height: 210px;padding: 10px;overflow: hidden;"></div>
+					<div id="zhishimixi" style="width: 700px;height: 210px;padding: 10px;overflow: auto;"></div>
 				</div>
 				<div id="jiejaan" style="display: block;">
 				    <form id="tijiaomingxi" >
@@ -58,7 +58,7 @@
 			getGongDan();
 			var gongdan = Object;
 			var xuanzhongbiaodan = '';
-			function getGongDan() {//获取工单
+			function getGongDan(xx) {//获取工单
 			    var aa = document.getElementById('xzccp');
 			    var data = new FormData(aa);
 			    data.append('r','查询知识');
@@ -72,6 +72,14 @@
 			            	gongdan = dd[1];
 			            	if (dd[1]) {
 			            		xianshi_gongdan(dd[1]);
+			            		if (xx) {
+			            			var syll =  document.getElementById('知识').children;
+			            			for (var i = 0; i < syll.length; i++) {
+			            				if (syll[i].children[0].id == xx) {
+			            					xianshi_mingxi(syll[i].children[0]) ;
+			            				}
+			            			}
+			            		}
 			            	}
 			                
 			            } else {
@@ -104,13 +112,14 @@
 						document.getElementById('xszsmx').innerHTML = gongdan[i][0].内容;
 						document.getElementById('gdanbianm').value = gongdan[i][0].知识ID;
 						var bb =  document.getElementById('zhishimixi');
-						bb.innerHTML = "";alert(gongdan[i][1].length);
+						bb.innerHTML = "";
 						for (var j = 0; j < gongdan[i][1].length; j++) {
 							var tupian = '';
 							if (gongdan[i][1][j].图片) {
 								tupian = '<img src="'+gongdan[i][1][j].图片+'">';
 							}
 							bb.innerHTML += '<div><div style="padding: 0px;"><output style="opacity:0.9;">'+gongdan[i][1][j].创建人+'</output>：<output style="padding: 5px;opacity: 0.8;font-size:90%;">'+gongdan[i][1][j].创建时间+'</output></div><div style="padding: 5px;">'+gongdan[i][1][j].明细内容+'</div<div style="padding: 5px;">'+tupian+'</div><hr style="height:1px;border:none;border-top:1px dashed #ccc;" /></div>';
+							zdd("zhishimixi");
 						}
 					}
 				}
@@ -125,7 +134,10 @@
 			        {
 			            var dd = j_a(xmlhttp.responseText);
 			            if (dd[0] == 'success') {
-			                getGongDan();
+			            	var idd = document.getElementById('gdanbianm').value;
+			                getGongDan(idd);
+			                aa.reset();
+			                document.getElementById('gdanbianm').value = idd;
 			            } else {
 			                alert(xmlhttp.responseText);
 			            }
@@ -133,6 +145,43 @@
 			    }
 			    xmlhttp.open("POST",'sousuo_do.php',true);
 			    xmlhttp.send(data);
+			}
+			function sousuozs() {//搜索知识
+				var aa = document.getElementById('sousuokuang').value;
+				var jieguo =  new Array;
+				var kk = 0;
+				var ls1 =  new Array;
+				var k1 = 0;
+				var ls2 =  new Array;
+				var k2 = 0;
+				for (var i = 0; i < gongdan.length; i++) {
+					if (gongdan[i][0].标题.indexOf(aa) != -1 ) {
+						jieguo[kk] = fz(gongdan[i]);
+						kk++;
+					} else {
+						ls1[k1] = fz(gongdan[i]);
+						k1++;
+					}
+				}
+				for (var i = 0; i < ls1.length; i++) {
+					if (ls1[i][0].内容.indexOf(aa) != -1 ) {
+						jieguo[kk] = fz(ls1[i]);
+						kk++;
+					} else {
+						ls2[k2] = fz(ls1[i]);
+						k2++;
+					}
+				}
+				for (var i = 0; i < ls2.length; i++) {
+					if (ls2[i][0].关键字.indexOf(aa) != -1 ) {
+						jieguo[kk] = fz(ls2[i]);
+						kk++;
+					}
+				}
+				if (!aa) {
+					jieguo = fz(gongdan);
+				}
+				xianshi_gongdan(jieguo);
 			}
 		</script>
 	</div>
@@ -165,7 +214,6 @@
 	            <div  style="padding: 10px 20px;">
 	                <output style="cursor: pointer;">内容：</output><hr>
 	                <textarea style="width: 710px;height: 200px;" name="内容"></textarea>
-	                
 	            </div>
 	            <div  style="padding: 10px 20px;">
 	                <output style="cursor: pointer;">图片：</output>

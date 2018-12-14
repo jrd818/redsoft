@@ -15,7 +15,7 @@
 			<div id="搜索" style="padding:5px;font-size: 26px;">
 				<div>
 					<input type="" name="" style="width: 300px;height: 25px;" id="sousuokuang">
-					<input type="button" name="" value="搜索" style="height: 30px;width: 60px;">
+					<input type="button" onclick="sousuozs()" value="搜索" style="height: 30px;width: 60px;">
 					<input type="button" onclick="new_product()" name=""  value="新增" style="height: 30px;width: 60px;">
 				</div>
 			</div>
@@ -133,6 +133,43 @@
 				}
 				xmlhttp.open("POST",'guanli_do.php',true);
 				xmlhttp.send(data);
+			}
+			function sousuozs() {//搜索自己知识
+				var aa = document.getElementById('sousuokuang').value;
+				var jieguo =  new Array;
+				var kk = 0;
+				var ls1 =  new Array;
+				var k1 = 0;
+				var ls2 =  new Array;
+				var k2 = 0;
+				for (var i = 0; i < gongdan.length; i++) {
+					if (gongdan[i][0].标题.indexOf(aa) != -1 ) {
+						jieguo[kk] = fz(gongdan[i]);
+						kk++;
+					} else {
+						ls1[k1] = fz(gongdan[i]);
+						k1++;
+					}
+				}
+				for (var i = 0; i < ls1.length; i++) {
+					if (ls1[i][0].内容.indexOf(aa) != -1 ) {
+						jieguo[kk] = fz(ls1[i]);
+						kk++;
+					} else {
+						ls2[k2] = fz(ls1[i]);
+						k2++;
+					}
+				}
+				for (var i = 0; i < ls2.length; i++) {
+					if (ls2[i][0].关键字.indexOf(aa) != -1 ) {
+						jieguo[kk] = fz(ls2[i]);
+						kk++;
+					}
+				}
+				if (!aa) {
+					jieguo = fz(gongdan);
+				}
+				xianshi_gongdan(jieguo);
 			}
 		</script>
 	</div>

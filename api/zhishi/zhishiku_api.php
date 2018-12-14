@@ -10,7 +10,7 @@ function jiance(){//检测数据完整性
     } else if (!$js_nr['标题']) {
         sb('标题不能为空！');
     } else if (!$js_nr['内容']) {
-        sb('内容不能为空！');
+        sb('内容不能为空！'); 
     } else if (!$js_nr['创建人']) {
         sb('创建人不能为空！');
     } 
@@ -69,15 +69,15 @@ if (q('查询')) {
 elseif (q('新增')) {
     $js_nr['知识ID'] = getId();
     jiance();
-    $gdcl->ins($js_nr);
+    $gdcl->ins($js_nr); 
 }
 elseif (q('修改')) {
-    $where = "知识库ID = '".$js_nr['知识库ID']."'";
+    $where = "知识ID = '".$js_nr['知识ID']."'";
     $gdcl->upd($js_nr,$where);
 }
 elseif (q('删除')) {
-    $where = "知识库ID = '".$js_nr['知识库ID']."'";
-    $arr['状态'] = '删除';
+    $where = "知识ID = '".$js_nr['知识ID']."'";
+    $arr['作废'] = '作废';
     $gdcl->upd($arr,$where);
 }
 

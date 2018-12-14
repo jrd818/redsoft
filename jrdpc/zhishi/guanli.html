@@ -8,7 +8,7 @@
     <script type="text/javascript" charset="utf-8" src="../../js_chajian/ueditor1_4_3_2/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="../../js_chajian/ueditor1_4_3_2/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="../../js_chajian/ueditor1_4_3_2/lang/zh-cn/zh-cn.js"></script>
-</head>
+</head> 
 <body>
 	<div id="页中" style="text-align: center;">
 		<div style="width: 1050px;margin: 0 auto;text-align: left; ">
@@ -64,11 +64,11 @@
 			}
 			function xianshi_gongdan(nr) {//显示工单
 				var aa =  document.getElementById('知识');
-				// aa.innerHTML = '';
+				aa.innerHTML = '';
 				for (var i = 0; i < nr.length; i++) {
 					var chunwenben = getSimpleText(nr[i][0].内容);
 					nr[i][0].创建时间 = nr[i][0].创建时间.substr(0,10);
-					aa.innerHTML += '<div class="xianshmxs" style="width: 100%;height: 40px;"><div style="padding:10px;float: left;width: 80px;border-right: 1px solid #fff;">'+nr[i][0].知识ID+'</div><div style="padding:10px;float: left;width: 650px;border-right: 1px solid #fff;">'+nr[i][0].标题+'</div><div style="padding:10px;float: left;width: 120px;border-right: 1px solid #fff;">'+nr[i][0].创建时间+'</div><div style="padding:10px;float: left;width: 100px;"><output onclick="bianjizhishi(this)" style="color: blue;cursor: pointer;">编辑</output><output> | </output><output style="color: blue;cursor: pointer;">删除</output></div></div><div style="clear: both;"></div>';
+					aa.innerHTML += '<div class="xianshmxs" style="width: 100%;height: 40px;"><div style="padding:10px;float: left;width: 80px;border-right: 1px solid #fff;">'+nr[i][0].知识ID+'</div><div style="padding:10px;float: left;width: 650px;border-right: 1px solid #fff;">'+nr[i][0].标题+'</div><div style="padding:10px;float: left;width: 120px;border-right: 1px solid #fff;">'+nr[i][0].创建时间+'</div><div style="padding:10px;float: left;width: 100px;"><output onclick="bianjizhishi(this)" style="color: blue;cursor: pointer;">编辑</output><output> | </output><output onclick="delet(this)"  style="color: blue;cursor: pointer;">删除</output></div></div><div style="clear: both;"></div>';
 				}
 			}
 			function getSimpleText(html){//HTML文本转为纯文本
@@ -106,6 +106,26 @@
 				        if (dd[0] == 'success') {
 				        	alert('修改进度成功！');
 				        	getGongDan();
+				        } else {
+				            alert(xmlhttp.responseText);
+				        }
+				    }
+				}
+				xmlhttp.open("POST",'guanli_do.php',true);
+				xmlhttp.send(data);
+			}
+			function delet(xx) {
+				var id = xx.parentNode.parentNode.children[0].innerHTML;
+				var data = new FormData();
+				data.append("w","删除知识");
+				data.append("知识ID",id);
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange=function() {
+				    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				    {
+				        var dd = j_a(xmlhttp.responseText);
+				        if (dd[0] == 'success') {
+				            getGongDan();
 				        } else {
 				            alert(xmlhttp.responseText);
 				        }

@@ -31,32 +31,16 @@ elseif ($_POST['w'] == '新增知识') {
     acc_arr('知识库','新增', $_POST); 
     
 }
-elseif ($_POST['w'] == '修改知识') {
-    $yz_yc = 0;//确保验证一次，后续使用：yz（）函数的时候，就不需要这个了
-    unset($_POST['w']);
-    $wenjianjia = "/tupian/zhishitupian/".date("Ymd");
-    if (!file_exists($_SERVER['DOCUMENT_ROOT'].$wenjianjia) ) {
-        mkdir($_SERVER['DOCUMENT_ROOT'].$wenjianjia, 0777, true);
-    } 
-    if ($_FILES["图片"]["name"]) {
-        move_uploaded_file($_FILES["图片"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'].$wenjianjia."/".$_FILES["图片"]["name"]);
-        $_POST['图片'] = $wenjianjia."/".$_FILES["图片"]["name"];
-    }
-    acc_arr('知识库','修改', $_POST); 
-    
-}
 
 elseif ($_POST['w'] == '改变工单进度') {
     $yz_yc = 0;//确保验证一次，后续使用：yz（）函数的时候，就不需要这个了
     unset($_POST['w']);
     acc_arr('知识库','修改', $_POST);
 }
-elseif ( $_POST['w'] == '删除知识') {
-    $yz_yc = 0;//确保验证一次，后续使用：yz（）函数的时候，就不需要这个了
-    unset($_POST['w']);
+elseif ( yz('删除工单')) {
     if (acc_arr('知识库','删除', $_POST)) {
         $jieguo[0] = 'success';
-        $jieguo[1] = '删除知识成功！';
+        $jieguo[1] = '删除工单成功！';
     }
 }
 //工单明细

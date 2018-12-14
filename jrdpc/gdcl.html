@@ -294,7 +294,7 @@
 	                <output style="margin-left: 10px;">QQ号码：</output>
 	                <input id="qqhaoma" oninput="PiPeilianxiren()" name="QQ号码"  style="width: 150px;">
 	                <output  style="margin-left: 20px;">昵称：</output>
-	                <input id="qqnicheng" oninput="PiPeilianxiren()"  name="QQ昵称"  style="width: 200px;">             
+	                <input id="qqnicheng"  name="QQ昵称"  style="width: 200px;">             
 	            </div>
 	            <div style="margin: 10px; ">
 	                <output style="margin-left: 10px;">QQ备注：</output>
@@ -361,14 +361,14 @@
 	                        alert(xmlhttp.responseText);
 	                    }
 	                }
-	            }
+	            } 
 	            xmlhttp.open("POST",'gdcl_do.php',true);
 	            xmlhttp.send(data);
 	        }
 	        function PiPeilianxiren() {
 	        	var pp = 0;
 	        	for (var i = 0; i < LianxRen.length; i++) {
-	        		if ((LianxRen[i].QQ号码 == document.getElementById('qqhaoma').value) || (LianxRen[i].QQ昵称 == document.getElementById('qqnicheng').value)) {
+	        		if ((LianxRen[i].QQ号码 == document.getElementById('qqhaoma').value)) {
 	        			document.getElementById('qqhaoma').value = LianxRen[i].QQ号码;
 	        			document.getElementById('qqnicheng').value = LianxRen[i].QQ昵称;
 	        			document.getElementById('qqbeizhu').value = LianxRen[i].QQ备注;

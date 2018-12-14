@@ -6,9 +6,11 @@ if ( $_POST['r'] == '查询知识') {
     $jg = acc_arr('知识库','查询');
     if ($jg) {
         foreach ($jg as $key => $value) {
-            $value[0]['内容'] = urldecode($value[0]['内容']);
-            $value[0]['内容'] = htmlspecialchars_decode($value[0]['内容']);
-            $jieguo[1][] = $value;
+            if ($value[0]['创建人'] == $_SESSION['user']) {
+               $value[0]['内容'] = urldecode($value[0]['内容']);
+               $value[0]['内容'] = htmlspecialchars_decode($value[0]['内容']);
+               $jieguo[1][] = $value;
+            }
         }
     }
 }   

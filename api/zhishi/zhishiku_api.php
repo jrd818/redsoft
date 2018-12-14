@@ -43,12 +43,12 @@ function getId_mx($bm){//获取ID
     while ($xh == 1) {
         $xh = 0;
         foreach ($sup as $key => $value) {
-            if ($value['工单明细编码'] == $ID) {
+            if ($value['明细ID'] == $ID) {
                 $ID++;
             }
         }
         foreach ($sup as $key => $value) {
-            if ($value['工单明细编码'] == $ID) {
+            if ($value['明细ID'] == $ID) {
                 $xh = 1;break;
             }
         }
@@ -84,8 +84,8 @@ elseif (q('删除')) {
 
 //明细
 elseif (q('新增明细')) {
-    $js_nr['工单明细编码'] = getId_mx($js_nr['知识库ID']);
-    if (!$js_nr['回复类容']  && !$js_nr['图片1']) {
+    $js_nr['明细ID'] = getId_mx($js_nr['知识库ID']);
+    if (!$js_nr['明细内容']  && !$js_nr['图片']) {
         sb('请输入内容或者上传图片');
     }
     $gdcl_mx->ins($js_nr);

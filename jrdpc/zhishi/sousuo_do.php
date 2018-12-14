@@ -44,20 +44,17 @@ elseif ( yz('删除工单')) {
     }
 }
 //工单明细
-elseif ( yz('提交明细')) {
-    if ($_FILES["图片1"]["error"] > 0) {
-        sb($_FILES["图片1"]["error"]);
-    } else {
-        move_uploaded_file($_FILES["图片1"]["tmp_name"], $_SERVER['DOCUMENT_ROOT']."/images/gdcl/".$_FILES["图片1"]["name"]);
-        $arr['创建时间'] = date("Y-m-d h:i:s");
-        $arr['职员名称'] = $_SESSION['user'];
-        $arr['工单编码'] = $_POST['工单编码'];
-        $arr['回复类容'] = $_POST['回复类容'];
-        if ($_FILES["图片1"]["name"]) {
-            $arr['图片1'] = "/images/gdcl/".$_FILES["图片1"]["name"];
-        }
-        acc_arr('知识库','新增明细', $arr);
+elseif ( $_POST['w'] == '提交明细') {
+    $yz_yc = 0;//确保验证一次，后续使用：yz（）函数的时候，就不需要这个了
+    $arr['创建时间'] = date("Y-m-d h:i:s");
+    $arr['创建人'] = $_SESSION['user'];
+    $arr['知识库ID'] = $_POST['知识库ID'];
+    $arr['明细内容'] = $_POST['明细内容'];
+    if ($_FILES["图片"]["name"]) {
+        move_uploaded_file($_FILES["图片"]["tmp_name"], $_SERVER['DOCUMENT_ROOT']."/tupian/zhishitupian/".$_FILES["图片"]["name"]);
+        $arr['图片'] = "/tupian/zhishitupian/".$_FILES["图片"]["name"];
     }
+    acc_arr('知识库','新增明细', $arr);
 }
 elseif ( yz('获取工单明细')) {
     $jieguo[1] = acc_arr('知识库','查询明细',$_POST);

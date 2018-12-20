@@ -6,7 +6,7 @@ if ( $_POST['r'] == '查询工单') {
     $jg = acc_arr('工单处理','查询');
     if ($jg) {
         foreach ($jg as $key => $value) {
-            if ($value[0]['进度'] != '结束') {
+            if ($value[0]['进度'] != '00') {
                 $jieguo[1][] = $value;
             }
         }
@@ -47,6 +47,11 @@ elseif ($_POST['w'] == '提交工单') {
         $arr['QQ备注'] = $_POST['QQ备注'];
         
         acc_arr('客户主体','新增联系人', $arr);
+    } else {
+        $arr['QQ群'] = $_POST['QQ群'];
+        $arr['QQ备注'] = $_POST['QQ备注'];
+        
+        acc_arr('客户主体','修改联系人', $arr);
     }
 }
 

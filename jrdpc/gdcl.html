@@ -15,12 +15,13 @@
 					<input type="button" name="" onclick="new_product()" value="新增" style="height: 30px;width: 60px;">
 				</div>
 			</div> -->
-			<div id="工单列表" style="float: left;height: 700px;width: 340px;border: 1px solid #aaa;text-align: left;overflow: auto;">
+			<div id="工单列表" style="float: left;height: 700px;width: 380px;border: 1px solid #aaa;text-align: left;">
 				<div id="标题" style="width: 100%;height: 40px;background-color: #ddd;">
-					<div style="padding:10px;float: left;">工单列表</div>
+					<div style="padding:10px;float: left;">工单列表 <output id="riqi" style="opacity: 0.8;font-size: 80%;"></output></div>
 					<div onclick="new_product()" style="float: right;padding: 10px;cursor: pointer;color: blue;">新增</div>
+					<div onclick="kaishi_shaixuan()" style="float: right;padding: 10px;cursor: pointer;color: blue;">筛选</div>
 				</div>
-				<div id="列表" style="padding: 8px;">
+				<div id="列表" style="padding: 8px;overflow: auto;width: 363px;height: 635px;">
 					<div onclick="xianshi_mingxi(this.id)" id="">
 						<div>
 							<output style="color: blue;">01. </output>
@@ -93,9 +94,9 @@
 				    </div>
 				</div>
 			</div >
-			<div id="知识" style="float: left;height: 700px;width: 396px;border: 1px solid #aaa;margin-left: 5px;">
+			<div id="知识" style="float: left;height: 700px;width: 356px;border: 1px solid #aaa;margin-left: 5px;">
 				<div id="标题" style="width: 100%;height: 40px;background-color: #ddd;">
-					<div style="padding:10px;float: left;">匹配知识</div>
+					<div style="padding:10px;float: left;">统计</div>
 					<!-- <div onclick="" style="float: right;padding: 10px;cursor: pointer;color: blue;">新增</div>
 					<div style="float: right;padding: 10px;cursor: pointer;color: blue;">搜索</div> -->
 				</div>
@@ -120,7 +121,19 @@
 			            	gongdan = '';
 			            	gongdan = dd[1];
 			            	if (dd[1]) {
-			            		xianshi_gongdan(dd[1]);
+			            		var myDate = new Date();
+			            		var jint = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+			            		document.getElementById('riqi').innerHTML = jint;
+			            		var kk = 0;
+			            		var ssjg = new Array;
+			            		var cc = '';
+			            		for (var i = 30; i < dd[1].length; i++) {
+			            			if (dd[1][i][0].创建时间.substr(0,10) == jint) {
+			            				ssjg[kk] = fz(dd[1][i]);
+			            				kk++;
+			            			}
+			            		}
+			            		xianshi_gongdan(ssjg);
 			            	}
 			                
 			            } else {
@@ -135,20 +148,21 @@
 				var aa =  document.getElementById('列表');
 				aa.innerHTML = '';
 				for (var i = 0; i < nr.length; i++) {
-					var xs = nr[i][0].单位名称;
+					var xs = nr[i][0].创建人+"："+nr[i][0].单位名称;
 					if (nr[i][0].QQ备注) {
 						xs = nr[i][0].QQ备注;
 					}
 					var zt = '新增';
-					if (nr[i][0].进度 ==  '处理') {
+					if (nr[i][0].进度 ==  '处理') { 
 						zt = '处理中';
 					} else if (nr[i][0].进度 ==  '挂起') {
 						zt = '挂起';
-					} else if (nr[i][0].进度 ==  '结束') {
+					} else if (nr[i][0].进度 ==  '结束') { 
 						zt = '结束';
 					}
 					var shijian = timeFn(nr[i][0].创建时间);
-					aa.innerHTML += '<div onclick="xianshi_mingxi(this)" style="cursor:pointer;" id="'+nr[i][0].工单编码+'"><div><output style="color: blue;">'+(i+1)+'. </output><output>'+xs+'</output><output style="font-size: 60%;opacity: 0.8;margin-left:5px;"> ('+shijian+')</output><output style="float: right;border: 1px solid #aaa;width: 60px;text-align: center;">'+zt+'</output></div><div><output style="font-size: 80%;opacity: 0.9;margin-left: 10px;padding: 10px;">'+nr[i][0].问题标题+'</output></div><hr></div>';
+					aa.innerHTML += '<div onclick="xianshi_mingxi(this)" style="cursor:pointer;" id="'+nr[i][0].工单编码+'"><div><output style="color: blue;">'+(i+1)+'. </output><output>'+xs+'</output><output style="font-size: 60%;opacity: 0.8;margin-left:5px;"> ('+shijian+')</output><output style="float: right;border: 1px solid #aaa;width: 60px;text-align: center;font-size:80%;">'+zt+'</output></div><div><output style="font-size: 80%;opacity: 0.9;margin-left: 10px;padding: 10px;">'+nr[i][0].问题标题+'</output></div><hr></div>';
+					zdd("列表");
 				}
 			}
 			function openQQ (xx) {
@@ -283,7 +297,7 @@
 	</div>
 	<!-- 编辑工单 -->
 	<div id="zengjiachanpin" style="display: none;">
-	    <div style="position: fixed;left: 0px;top: 0px;right: 0px;bottom: 0px; background-color: #e0e0e0;opacity: 0.6;"  id="diyi_zhezhao"></div>
+	    <div style="position: fixed;left: 0px;top: 0px;right: 0px;bottom: 0px; background-color: #e0e0e0;opacity: 0.6;"  id="diyi_zhezhao"></div> 
 	    <div style="display:inline; position:fixed;left: 330px;top: 150px;width: 560px;height: 410px;background-color: #f0f0f0; box-shadow: 0px 0px 10px  #0CC;font-size: 90%; ">
 	        <div style="width: 100%;height: 30px;background-color: #50c0c0; font-size: 16px;">
 	            <div id="xzspbt" style="padding: 5px;float: left;">提交工单</div>
@@ -291,7 +305,7 @@
 	        </div>
 	        <form id="xzccp"  action="gdcl_do.php"  method="post" onkeydown="if(event.keyCode==13){return false;}"  >
 	            <div style="margin: 10px; ">
-	                <output style="margin-left: 10px;">QQ号码：</output>
+	                <output style="margin-left: 10px;">QQ号码 * ：</output>
 	                <input id="qqhaoma" oninput="PiPeilianxiren()" name="QQ号码"  style="width: 150px;">
 	                <output  style="margin-left: 20px;">单位 * ：</output>
 	                <input id="qqnicheng"  name="单位名称"  style="width: 200px;">             
@@ -396,6 +410,29 @@
 	            }
 	            xmlhttp.open("POST",'gdcl_do.php',true);
 	            xmlhttp.send(data);
+	        }
+	    </script>
+	</div>
+	<!-- 编辑工单 -->
+	<div id="shaixuan" style="display: none;">
+	    <div style="position: fixed;left: 0px;top: 0px;right: 0px;bottom: 0px; background-color: #e0e0e0;opacity: 0.6;"  ></div> 
+	    <div style="display:inline; position:fixed;left: 330px;top: 150px;width: 560px;height: 410px;background-color: #f0f0f0; box-shadow: 0px 0px 10px  #0CC;font-size: 90%; ">
+	        <div style="width: 100%;height: 30px;background-color: #50c0c0; font-size: 16px;">
+	            <div id="xzspbt" style="padding: 5px;float: left;">筛选工单</div>
+	            <div style="float: right; padding: 5px; "><input  onclick="gbshaixuan()" type="button" value="×"></div>
+	        </div>
+	        <form id="sxianbiaodan">
+	        	
+	        </form>
+	    </div>
+	    <script type="text/javascript">
+	        function gbshaixuan() {// 关闭新增工单
+	            document.getElementById('sxianbiaodan').reset();
+	            document.getElementById('shaixuan').style.display = 'none';
+	        }
+	        function kaishi_shaixuan() {//开始新增工单
+	            document.getElementById('sxianbiaodan').reset();
+	            document.getElementById('shaixuan').style.display = 'block';
 	        }
 	    </script>
 	</div>

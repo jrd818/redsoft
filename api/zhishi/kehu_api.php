@@ -90,6 +90,14 @@ elseif (q('新增联系人')) {
     }
     $gdcl_mx->ins($js_nr);
 }
+elseif (q('修改联系人')) {
+    $js_nr['联系人ID'] = getId_mx();
+    if (!$js_nr['QQ号码']) {
+        sb('请输入QQ号码');
+    }
+    $where = "QQ号码 = '".$js_nr['QQ号码']."'";
+    $gdcl_mx->upd($js_nr,$where);
+}
 elseif (q('查询联系人')) {
     $sup = $gdcl_mx->ser();
      $fanhui[1] = 0;

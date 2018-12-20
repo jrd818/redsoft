@@ -47,7 +47,7 @@
 				    <div id="明细标题" style="font-size: 80%;height: 90px;overflow: auto;">
 				        <div  style="margin-top: 10px;">
 				            <output>QQ号：</output><output style="margin-right: 20px;"></output>
-				            <output>QQ昵称</output><output ></output>
+				            <output>单位名称</output><output ></output>
 				        </div>
 				        <div  style="margin-top: 10px;">
 				            <output>标题：</output><output></output>
@@ -135,20 +135,20 @@
 				var aa =  document.getElementById('列表');
 				aa.innerHTML = '';
 				for (var i = 0; i < nr.length; i++) {
-					var xs = nr[i][0].QQ昵称;
+					var xs = nr[i][0].单位名称;
 					if (nr[i][0].QQ备注) {
 						xs = nr[i][0].QQ备注;
 					}
-					var zt = '=';
+					var zt = '新增';
 					if (nr[i][0].进度 ==  '处理') {
-						zt = '...';
+						zt = '处理中';
 					} else if (nr[i][0].进度 ==  '挂起') {
-						zt = '×';
+						zt = '挂起';
 					} else if (nr[i][0].进度 ==  '结束') {
-						zt = '√';
+						zt = '结束';
 					}
 					var shijian = timeFn(nr[i][0].创建时间);
-					aa.innerHTML += '<div onclick="xianshi_mingxi(this)" style="cursor:pointer;" id="'+nr[i][0].工单编码+'"><div><output style="color: blue;">'+(i+1)+'. </output><output>'+xs+'</output><output style="font-size: 60%;opacity: 0.8;margin-left:5px;"> ('+shijian+')</output><output style="float: right;border: 1px solid #aaa;width: 20px;text-align: center;">'+zt+'</output></div><div><output style="font-size: 80%;opacity: 0.9;margin-left: 10px;padding: 10px;">'+nr[i][0].问题标题+'</output></div><hr></div>';
+					aa.innerHTML += '<div onclick="xianshi_mingxi(this)" style="cursor:pointer;" id="'+nr[i][0].工单编码+'"><div><output style="color: blue;">'+(i+1)+'. </output><output>'+xs+'</output><output style="font-size: 60%;opacity: 0.8;margin-left:5px;"> ('+shijian+')</output><output style="float: right;border: 1px solid #aaa;width: 60px;text-align: center;">'+zt+'</output></div><div><output style="font-size: 80%;opacity: 0.9;margin-left: 10px;padding: 10px;">'+nr[i][0].问题标题+'</output></div><hr></div>';
 				}
 			}
 			function openQQ (xx) {
@@ -170,11 +170,11 @@
 						aa = gongdan[i];
 					}
 				}
-				var nicheng = aa[0].QQ昵称;
+				var nicheng = aa[0].单位名称;
 				if (aa[0].群备注) {
 					nicheng = aa[0].群备注;
 				}
-				document.getElementById('明细标题').innerHTML = '<div  style="margin-top: 10px;"><output>QQ号：</output><output onclick="openQQ (this.innerHTML)" style="margin-right: 20px;cursor:pointer;color:blue;">'+aa[0].QQ号码+'</output><output>QQ昵称</output><output >'+nicheng+'</output></div><div  style="margin-top: 10px;"><output>标题：</output><output>'+aa[0].问题标题+'</output><br><output>描述：</output><output>'+aa[0].问题描述+'</output></div>';
+				document.getElementById('明细标题').innerHTML = '<div  style="margin-top: 10px;"><output>QQ号：</output><output onclick="openQQ (this.innerHTML)" style="margin-right: 20px;cursor:pointer;color:blue;">'+aa[0].QQ号码+'</output><output>单位名称：</output><output >'+nicheng+'</output></div><div  style="margin-top: 10px;"><output>标题：</output><output>'+aa[0].问题标题+'</output><br><output>描述：</output><output>'+aa[0].问题描述+'</output></div>';
 				var tjiaohuifu = document.getElementById('提交回复');
 				tjiaohuifu.innerHTML = '';
 				for (var i = 0; i < aa[1].length; i++) {
@@ -293,8 +293,8 @@
 	            <div style="margin: 10px; ">
 	                <output style="margin-left: 10px;">QQ号码：</output>
 	                <input id="qqhaoma" oninput="PiPeilianxiren()" name="QQ号码"  style="width: 150px;">
-	                <output  style="margin-left: 20px;">昵称：</output>
-	                <input id="qqnicheng"  name="QQ昵称"  style="width: 200px;">             
+	                <output  style="margin-left: 20px;">单位 * ：</output>
+	                <input id="qqnicheng"  name="单位名称"  style="width: 200px;">             
 	            </div>
 	            <div style="margin: 10px; ">
 	                <output style="margin-left: 10px;">QQ备注：</output>
@@ -370,7 +370,7 @@
 	        	for (var i = 0; i < LianxRen.length; i++) {
 	        		if ((LianxRen[i].QQ号码 == document.getElementById('qqhaoma').value)) {
 	        			document.getElementById('qqhaoma').value = LianxRen[i].QQ号码;
-	        			document.getElementById('qqnicheng').value = LianxRen[i].QQ昵称;
+	        			document.getElementById('qqnicheng').value = LianxRen[i].单位名称;
 	        			document.getElementById('qqbeizhu').value = LianxRen[i].QQ备注;
 	        			document.getElementById('qqqun').value = LianxRen[i].QQ群;
 	        			document.getElementById('tvid').value = LianxRen[i].TV_ID;

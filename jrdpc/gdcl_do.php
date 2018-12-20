@@ -43,9 +43,7 @@ elseif ($_POST['w'] == '提交工单') {
     $arr['QQ号码'] = $_POST['QQ号码'];
     $jg = acc_arr('客户主体','查询联系人',$arr);
     if (!$jg) {
-        $arr['QQ昵称'] = $_POST['QQ昵称'];
         $arr['QQ群'] = $_POST['QQ群'];
-        $arr['QQ昵称'] = $_POST['QQ昵称'];
         $arr['QQ备注'] = $_POST['QQ备注'];
         
         acc_arr('客户主体','新增联系人', $arr);

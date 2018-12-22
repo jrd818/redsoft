@@ -58,6 +58,13 @@ elseif ($_POST['w'] == '提交工单') {
 elseif ($_POST['w'] == '改变工单进度') {
     $yz_yc = 0;//确保验证一次，后续使用：yz（）函数的时候，就不需要这个了
     unset($_POST['w']);
+    if ($_POST['进度'] == '处理') {
+        $_POST['开始处理时间'] = date("Y-m-d h:i:s");
+        $_POST['处理人'] = $_SESSION['user'];
+    } elseif ($_POST['进度'] == '结束') {
+        $_POST['结束处理时间'] = date("Y-m-d h:i:s");
+        $_POST['完工人'] = $_SESSION['user'];
+    }
     acc_arr('工单处理','修改', $_POST);
 }
 elseif ( yz('删除工单')) {

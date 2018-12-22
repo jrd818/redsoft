@@ -146,23 +146,50 @@
 			}
 			function xianshi_gongdan(nr) {//显示工单
 				var aa =  document.getElementById('列表');
-				aa.innerHTML = '';
+				aa.innerHTML = '<br><div style="text-align:center;padding:5px;">处理中:</div>';
+				var sxuanx =  new Array;
+				var kk = 0;
 				for (var i = 0; i < nr.length; i++) {
-					var xs = nr[i][0].创建人+"："+nr[i][0].单位名称;
-					if (nr[i][0].QQ备注) {
-						xs = nr[i][0].QQ备注;
+					if (nr[i][0].进度 !=  '结束') {
+						sxuanx[kk] = fz(nr[i]);
+						kk++;
 					}
-					var zt = '新增';
-					if (nr[i][0].进度 ==  '处理') { 
-						zt = '处理中';
-					} else if (nr[i][0].进度 ==  '挂起') {
-						zt = '挂起';
-					} else if (nr[i][0].进度 ==  '结束') { 
-						zt = '结束';
+				}
+				xsmxis(sxuanx);
+				aa.innerHTML += '<br><div style="text-align:center;padding:5px;">处理完毕:</div>';
+				kk = 0;
+				sxuanx =  new Array;
+				for (var i = 0; i < nr.length; i++) {
+					if (nr[i][0].进度 ==  '结束') {
+						sxuanx[kk] = fz(nr[i]);
+						kk++;
 					}
-					var shijian = timeFn(nr[i][0].创建时间);
-					aa.innerHTML += '<div onclick="xianshi_mingxi(this)" style="cursor:pointer;" id="'+nr[i][0].工单编码+'"><div><output style="color: blue;">'+(i+1)+'. </output><output>'+xs+'</output><output style="font-size: 60%;opacity: 0.8;margin-left:5px;"> ('+shijian+')</output><output style="float: right;border: 1px solid #aaa;width: 60px;text-align: center;font-size:80%;">'+zt+'</output></div><div><output style="font-size: 80%;opacity: 0.9;margin-left: 10px;padding: 10px;">'+nr[i][0].问题标题+'</output></div><hr></div>';
-					zdd("列表");
+				}
+				xsmxis(sxuanx);
+				function xsmxis(nr) {
+					for (var i = 0; i < nr.length; i++) {
+						var xs = nr[i][0].单位名称;
+						// if (nr[i][0].QQ备注) {
+						// 	xs = nr[i][0].QQ备注;
+						// }
+						var zt = '新增';
+						if (nr[i][0].进度 ==  '处理') { 
+							zt = '处理中';
+						} else if (nr[i][0].进度 ==  '挂起') {
+							zt = '挂起';
+						} else if (nr[i][0].进度 ==  '结束') { 
+							zt = '结束';
+						}
+						if (!nr[i][0].处理人) {
+							nr[i][0].处理人 = "";
+						}
+						if (!nr[i][0].完工人) {
+							nr[i][0].完工人 = "";
+						}
+						var shijian = timeFn(nr[i][0].创建时间);
+						aa.innerHTML += '<div onclick="xianshi_mingxi(this)" style="cursor:pointer;" id="'+nr[i][0].工单编码+'"><div><output style="color: blue;">'+(i+1)+'. </output><output>'+xs+'</output><output style="font-size: 60%;opacity: 0.8;margin-left:5px;"> ('+shijian+')</output><output style="float: right;border: 1px solid #aaa;width: 60px;text-align: center;font-size:80%;">'+zt+'</output></div><div><output style="font-size: 80%;opacity: 0.9;margin-left: 10px;padding: 10px;">'+nr[i][0].问题标题+'</output></div><div style="font-size:70%;opacity:0.7;margin-top:5px;"><output>创建：'+nr[i][0].创建人+'</output><output style="margin-left:70px;">处理：'+nr[i][0].处理人+'</output><output style="margin-left:70px;">完工：'+nr[i][0].完工人+'</output</div><hr></div>';
+						zdd("列表");
+					}
 				}
 			}
 			function openQQ (xx) {

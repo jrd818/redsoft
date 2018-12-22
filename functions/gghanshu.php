@@ -5,6 +5,8 @@ session_set_cookie_params($time_out);
 session_start();
 include_once $_SERVER['DOCUMENT_ROOT']."/config/db_config.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/functions/table_config.php";
+//清除缓存
+header("Cache-Control: no-cache, must-revalidate"); 
 $jieguo = array();//存放请求结果
 $cg = 1;//默认执行成功,发生错误或者失败时候自动设置为0
 $cuowu = '';//存放程序错误信息

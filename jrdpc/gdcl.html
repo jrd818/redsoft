@@ -122,18 +122,17 @@
 			            	gongdan = dd[1];
 			            	if (dd[1]) {
 			            		var myDate = new Date();
-			            		var jint = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
-			            		document.getElementById('riqi').innerHTML = jint;
-			            		var kk = 0;
-			            		var ssjg = new Array;
-			            		var cc = '';
-			            		for (var i = 30; i < dd[1].length; i++) {
-			            			if (dd[1][i][0].创建时间.substr(0,10) == jint) {
-			            				ssjg[kk] = fz(dd[1][i]);
-			            				kk++;
-			            			}
+			            		var yue = myDate.getMonth()+1;
+			            		if (yue < 10) {
+			            			yue = "0"+yue;
 			            		}
-			            		xianshi_gongdan(ssjg);
+			            		var ri = myDate.getDate();
+			            		if (ri < 10) {
+			            			ri = "0" + ri;
+			            		}
+			            		var jint = myDate.getFullYear()+"-"+yue+"-"+ri;
+			            		document.getElementById('riqi').innerHTML = jint;
+			            		xianshi_gongdan(dd[1],jint);
 			            	}
 			                
 			            } else {
@@ -144,23 +143,35 @@
 			    xmlhttp.open("POST",'gdcl_do.php',true);
 			    xmlhttp.send(data);
 			}
-			function xianshi_gongdan(nr) {//显示工单
+			function xianshi_gongdan(nr,sj) {//显示工单
 				var aa =  document.getElementById('列表');
-				aa.innerHTML = '<br><div style="text-align:center;padding:5px;">处理中:</div>';
+				aa.innerHTML = '<br><div style="text-align:center;padding:5px;">遗留问题:</div>';
 				var sxuanx =  new Array;
 				var kk = 0;
 				for (var i = 0; i < nr.length; i++) {
-					if (nr[i][0].进度 !=  '结束') {
+					if (nr[i][0].进度 !=  '结束' && nr[i][0].创建时间.substr(0,10) !=  sj) {
 						sxuanx[kk] = fz(nr[i]);
 						kk++;
 					}
 				}
 				xsmxis(sxuanx);
+
+				aa.innerHTML += '<br><div style="text-align:center;padding:5px;">处理中:</div>';
+				sxuanx =  new Array;
+				var kk = 0;
+				for (var i = 0; i < nr.length; i++) {
+					if (nr[i][0].进度 !=  '结束' && nr[i][0].创建时间.substr(0,10) ==  sj) {
+						sxuanx[kk] = fz(nr[i]);
+						kk++;
+					}
+				}
+				xsmxis(sxuanx);
+
 				aa.innerHTML += '<br><div style="text-align:center;padding:5px;">处理完毕:</div>';
 				kk = 0;
 				sxuanx =  new Array;
 				for (var i = 0; i < nr.length; i++) {
-					if (nr[i][0].进度 ==  '结束') {
+					if (nr[i][0].进度 ==  '结束' && nr[i][0].创建时间.substr(0,10) ==  sj) {
 						sxuanx[kk] = fz(nr[i]);
 						kk++;
 					}
@@ -333,7 +344,7 @@
 	        <form id="xzccp"  action="gdcl_do.php"  method="post" onkeydown="if(event.keyCode==13){return false;}"  >
 	            <div style="margin: 10px; ">
 	                <output style="margin-left: 10px;">QQ号码 * ：</output>
-	                <input id="qqhaoma" oninput="PiPeilianxiren()" name="QQ号码"  style="width: 150px;">
+	                <input id="qqhaoma" oninput="" name="QQ号码"  style="width: 150px;">
 	                <output  style="margin-left: 20px;">单位 * ：</output>
 	                <input id="qqnicheng"  name="单位名称"  style="width: 200px;">             
 	            </div>
@@ -386,7 +397,7 @@
 	            document.getElementById('xzccp').reset();
 	            document.getElementById('zengjiachanpin').style.display = 'block';
 	        }
-	        var LianxRen = new Object;
+	        var LianxRen = new Object; 
 	        function getLianxXiRen() {//获取工单
 	            var data = new FormData();
 	            data.append('r','查询联系人');
@@ -406,18 +417,18 @@
 	            xmlhttp.open("POST",'gdcl_do.php',true);
 	            xmlhttp.send(data);
 	        }
-	        function PiPeilianxiren() {
-	        	var pp = 0;
-	        	for (var i = 0; i < LianxRen.length; i++) {
-	        		if ((LianxRen[i].QQ号码 == document.getElementById('qqhaoma').value)) {
-	        			document.getElementById('qqhaoma').value = LianxRen[i].QQ号码;
-	        			document.getElementById('qqnicheng').value = LianxRen[i].单位名称;
-	        			document.getElementById('qqbeizhu').value = LianxRen[i].QQ备注;
-	        			document.getElementById('qqqun').value = LianxRen[i].QQ群;
-	        			document.getElementById('tvid').value = LianxRen[i].TV_ID;
-	        		} 
-	        	}
-	        }
+	        // function PiPeilianxiren() {//匹配客户信息
+	        // 	var pp = 0;
+	        // 	for (var i = 0; i < LianxRen.length; i++) {
+	        // 		if ((LianxRen[i].QQ号码 == document.getElementById('qqhaoma').value)) {
+	        // 			document.getElementById('qqhaoma').value = LianxRen[i].QQ号码;
+	        // 			document.getElementById('qqnicheng').value = LianxRen[i].单位名称;
+	        // 			document.getElementById('qqbeizhu').value = LianxRen[i].QQ备注;
+	        // 			document.getElementById('qqqun').value = LianxRen[i].QQ群;
+	        // 			document.getElementById('tvid').value = LianxRen[i].TV_ID;
+	        // 		} 
+	        // 	}
+	        // }
 	        function saveNewProduct() {//提交表单
 	            var aa = document.getElementById('xzccp');
 	            var data = new FormData(aa);
@@ -440,7 +451,7 @@
 	        }
 	    </script>
 	</div>
-	<!-- 编辑工单 -->
+	<!-- 筛选工单 -->
 	<div id="shaixuan" style="display: none;">
 	    <div style="position: fixed;left: 0px;top: 0px;right: 0px;bottom: 0px; background-color: #e0e0e0;opacity: 0.6;"  ></div> 
 	    <div style="display:inline; position:fixed;left: 330px;top: 150px;width: 560px;height: 410px;background-color: #f0f0f0; box-shadow: 0px 0px 10px  #0CC;font-size: 90%; ">

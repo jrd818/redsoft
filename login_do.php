@@ -9,7 +9,7 @@ if ($_POST['zh'] && $_POST['ma']) {
     $_SESSION["user"] = '';
     $bm = $_POST['zh'];
     $mm = $_POST['ma'];
-    $sx = time()+24*3600*365;//失效时间
+    $sx = time()+24*3600*7;//失效时间
     $cz = 0;
     $sql = "SELECT * FROM 职员信息 ;";
     $reslut = mysqli_query($link,$sql);

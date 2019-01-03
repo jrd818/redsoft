@@ -5,10 +5,11 @@ if ( $_POST['r'] == '查询工单') {
     $yz_yc = 0;//确保验证一次，后续使用：yz（）函数的时候，就不需要这个了
     $jg = acc_arr('工单处理','查询');
     if ($jg) {
+        $sjian = date("Y-m-d");
         foreach ($jg as $key => $value) {
-            if ($value[0]['进度'] != '00') {
+            if ($value[0]['进度'] != '结束' || substr($value[0]['创建时间'], 0, 10) == $sjian) {
                 $jieguo[1][] = $value;
-            }
+            } 
         }
     }
 }   
@@ -24,6 +25,11 @@ elseif ( $_POST['r'] == '查询联系人') {
 }  
 
 elseif ($_POST['w'] == '提交工单') {
+    // if (!$_SESSION['user']) {
+    //     $jieguo[0] = "false";
+    //     $jieguo[1] = "登录以过期，请重新登录！";
+    //     break;
+    // }
     $yz_yc = 0;//确保验证一次，后续使用：yz（）函数的时候，就不需要这个了
     $arr = [];
     $arr['TV_ID'] = $_POST['TV_ID'];
